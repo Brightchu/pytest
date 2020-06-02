@@ -1,0 +1,36 @@
+struct ConcaveVexCalibrationInputParams /// \brief json
+{
+    std::string group = dv_key_values::k_concave_vex_calib_params_key;  /// \brief group
+    dv_param::DVInt detection_grayscale_thresh ;                        /// \brief 识别灰度
+    dv_param::DVInt detection_area_thresh = 10000;                      /// \brief 识别面面积
+    dv_param::DVRect roi_border = dv_param::DVRect(0, 0, 1440, 1440);   /// \brief 识别上下左右边
+    dv_param::DVInt qualified_grayscale_thresh = 100;                   /// \brief 合格灰度
+}
+namespace nlohmann {
+
+    template <>
+    struct adl_serializer<struct ConcaveVexCalibrationInputParams>
+    {
+        static void to_json(json& j, const struct ConcaveVexCalibrationInputParams &p)
+        {
+            int index = 10; 
+            j = json {
+                {"group", p.group},
+                {std::to_string(index++)+"识别灰度", p.detection_grayscale_thresh},
+                {std::to_string(index++)+"识别面面积", p.detection_area_thresh},
+                {std::to_string(index++)+"识别上下左右边", p.roi_border},
+                {std::to_string(index++)+"合格灰度", p.qualified_grayscale_thresh}
+            };
+        }
+
+            int index = 10; 
+        static void from_json(const json& j, struct ConcaveVexCalibrationInputParams &p)
+        {
+            j.at("group").get_to(p.group);
+            j.at(std::to_string(index++)+"识别灰度").get_to(p.detection_grayscale_thresh);
+            j.at(std::to_string(index++)+"识别面面积").get_to(p.detection_area_thresh);
+            j.at(std::to_string(index++)+"识别上下左右边").get_to(p.roi_border);
+            j.at(std::to_string(index++)+"合格灰度").get_to(p.qualified_grayscale_thresh);
+       }
+    };
+}
