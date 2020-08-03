@@ -131,3 +131,9 @@ dmypy.json
 
 #mac
 .DS_Store
+
+#folder
+cats_and_dogs_filtered/
+keras-networks/
+saved_model/
+
